@@ -7,10 +7,13 @@ import chalkAnimation from "chalk-animation";
 import figlet from "figlet";
 import { createSpinner } from "nanospinner";
 
+import askQuestions from "./askQuestions.js";
+
 const SLEEP_DURATION_MS = 2000;
 let player;
 
-const sleep = (ms = SLEEP_DURATION_MS) => new Promise((resolve) => setTimeout(resolve, ms));
+const sleep = (ms = SLEEP_DURATION_MS) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 function createRainbowTitle() {
   return chalkAnimation.rainbow(`Who wants to be a millionaire? \n`);
@@ -21,7 +24,9 @@ function printInstructions() {
     ${chalk.bgBlue(" HOW TO PLAY ")}
     I am a process on your computer that will ask you a series of 15 questions.
     If you answer all the questions correctly, you will become a millionaire.
-    If you answer any question incorrectly, I will be ${chalk.bgRed(" killed ")}.`);
+    If you answer any question incorrectly, I will be ${chalk.bgRed(
+      " killed "
+    )}.`);
 }
 
 async function welcome() {
@@ -68,17 +73,18 @@ async function handleAnswer(answer, correctAnswer) {
   }
 }
 
-async function question1() {
-  const { question_1 } = await inquirer.prompt({
-    type: "list",
-    name: "question_1",
-    message: "JavaScript is a ___ -side programming language.",
-    choices: ["Client", "Server", "Both", "None"]
-  });
+// async function question1() {
+//   const { question_1 } = await inquirer.prompt({
+//     type: "list",
+//     name: "question_1",
+//     message: "JavaScript is a ___ -side programming language.",
+//     choices: ["Client", "Server", "Both", "None"]
+//   });
 
-  return handleAnswer(question_1, "Both");
-}
+//   return handleAnswer(question_1, "Both");
+// }
 
 await welcome();
 await askName();
-await question1();
+// await question1();
+askQuestions(player);

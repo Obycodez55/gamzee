@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 
 import chalk from "chalk";
-import gradient from "gradient-string";
 import inquirer from "inquirer";
 import chalkAnimation from "chalk-animation";
-import figlet from "figlet";
-import { createSpinner } from "nanospinner";
 
 import askQuestions from "./askQuestions.js";
 
@@ -36,16 +33,6 @@ async function welcome() {
   printInstructions();
 }
 
-async function winner() {
-  console.clear();
-  const msg = `Congrats .  ${player}
-         \n $ 1 , 0 0 0 , 0 0 0
-    `;
-
-  figlet(msg, (err, data) => {
-    console.log(gradient.pastel.multiline(data));
-  });
-}
 
 async function askName() {
   const { player_name } = await inquirer.prompt({
@@ -60,31 +47,9 @@ async function askName() {
   console.log(`\nHello ${player}! Let's get started.\n`);
 }
 
-async function handleAnswer(answer, correctAnswer) {
-  const spinner = createSpinner("Checking your answer...").start();
-  await sleep();
-  if (answer === correctAnswer) {
-    spinner.success({
-      text: `Nice work!, ${player}, You got the right answer.`
-    });
-  } else {
-    spinner.error({ text: `💀💀💀Game Over!!!, ${player_name}, You lose.` });
-    process.exit(1);
-  }
-}
 
-// async function question1() {
-//   const { question_1 } = await inquirer.prompt({
-//     type: "list",
-//     name: "question_1",
-//     message: "JavaScript is a ___ -side programming language.",
-//     choices: ["Client", "Server", "Both", "None"]
-//   });
 
-//   return handleAnswer(question_1, "Both");
-// }
 
 await welcome();
 await askName();
-// await question1();
 askQuestions(player);

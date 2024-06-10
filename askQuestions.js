@@ -2,9 +2,13 @@ import { createSpinner } from "nanospinner";
 import questions from "./Questions.js";
 import wins from "./Wins.js";
 import inquirer from "inquirer";
+import winnerMessage from "./winnerMessage.js";
 
-let guaranteed;
 let guaranteedWin;
+const SLEEP_DURATION_MS = 2000;
+
+const sleep = (ms = SLEEP_DURATION_MS) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 function getRandomQuestion() {
   const randomIndex = Math.floor(Math.random() * questions.length);
@@ -25,23 +29,41 @@ async function askQuestion(question) {
   return answer === question.correctAnswer;
 }
 
+async function takeTheMoney(win) {
+  const { takeTheMoney } = await inquirer.prompt({
+    type: "confirm",
+    name: "takeTheMoney",
+    message: `Do you want to take ${win} ?`
+  });
+  return takeTheMoney;
+}
+
 async function askQuestions(player) {
   for (let i = 0; i < 15; i++) {
+    const win = wins[i]
+    const guaranteed = i === 4 || i === 10 || i === 14;
     const question = getRandomQuestion();
     const correct = await askQuestion(question);
     const spinner = createSpinner("Checking your answer...").start();
+    await sleep();
     if (correct) {
       const text = `Nice work!, ${player}, You got the right answer.
-        You now have ${wins[i]}.
-        ${guaranteed && `This is a guaranteed win.`}
+        \nYou now have ${win}.
+        ${guaranteed ? `This is a guaranteed win.` : ``}
         `;
+      if (guaranteed) guaranteedWin = win;
       spinner.success({
         text
       });
-      if (i === )
+      const tookMoney = await takeTheMoney(win);
+      if (tookMoney) await winnerMessage(win, player)
     } else {
-      spinner.error({ text: `\n💀💀💀Game Over!!!, ${player}, You lose.` });
-      process.exit(1);
+      if (guaranteedWin) {
+        await winnerMessage(guaranteedWin, player);
+      } else {
+        spinner.error({ text: `\n💀💀💀Game Over!!!, ${player}, You lose.` });
+        process.exit(1);
+      }
     }
   }
 }

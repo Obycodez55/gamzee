@@ -1,4 +1,4 @@
-# Who Wants To Be A Millionaire CLI Game
+# Gamezee - Who Wants To Be A Millionaire CLI Game
 
 ## Description
 
@@ -6,11 +6,16 @@ This project is a **command-line interface (CLI) game** inspired by the classic 
 
 ## Learn More
 
-Interested in how this game was built? Check out the full article where I walk through the entire development process, from setting up the project to publishing it on npm. **[Read the article here](link_to_your_article)**.
+Interested in how this game was built? Check out the full article where I walk through the entire development process, from setting up the project to publishing it on npm. **[Read the article here](https://medium.com/@obikoyaadebayo55/building-and-publishing-a-cli-tool-with-nodejs-ae75230ce434)**.
 
 ## Installation
 
 To install the game, simply run:
 
 ```bash
-npm install -g millionaire-cli
+npm install -g gamzee
+```
+Or simply run this directly
+
+```bash
+npx run gamzee

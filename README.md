@@ -1,4 +1,4 @@
-# Gamezee - Who Wants To Be A Millionaire CLI Game
+# Gamzee - Who Wants To Be A Millionaire CLI Game
 
 ## Description
 
